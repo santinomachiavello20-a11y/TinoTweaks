@@ -935,53 +935,67 @@ footer{ border-top:1px solid var(--border-subtle); padding:64px 0 32px; }
 </footer>
 
 <script>
-  // Seleccionamos los botones usando los IDs reales de tu código
+  // Seleccionamos los botones de cambio (Mensual / Permanente)
   const btnMensual = document.getElementById('toggleMensual');
   const btnPermanente = document.getElementById('togglePermanente');
 
-  // Seleccionamos los elementos de la tarjeta de Tino Utility
+  // Seleccionamos los elementos exclusivos de Tino Utility
   const utilityOldPrice = document.getElementById('utilityOld');
   const utilityAmount = document.getElementById('utilityAmount');
   const utilityPeriod = document.getElementById('utilityPeriod');
   const utilityDiscountTag = document.getElementById('utilityDiscountTag');
-  const utilityPaypalBtn = document.querySelector('#utilityDiscountTag').parentElement.querySelector('a');
+  
+  // Buscamos el botón de PayPal directo dentro de la sección de Tino Utility (Línea 830)
+  // Usamos el texto del enlace para asegurarnos de capturar el correcto
+  const utilityPaypalBtn = document.querySelector('a[href*="Tino_Utility"]');
 
-  // Función para activar el Plan Mensual
+  // Función para volver al estado normal (Mensual - $9.99)
   function setPlanMensual() {
-    utilityOldPrice.style.display = 'none';
-    utilityAmount.textContent = '$9.99';
-    utilityPeriod.textContent = '/ mes';
+    if(utilityOldPrice) utilityOldPrice.style.display = 'none';
+    if(utilityAmount) utilityAmount.textContent = '$9.99';
+    if(utilityPeriod) utilityPeriod.textContent = '/ mes';
     if(utilityDiscountTag) utilityDiscountTag.style.display = 'none';
     
-    // Cambia el diseño visual de los botones de arriba
-    btnMensual.classList.add('active');
-    btnMensual.setAttribute('aria-selected', 'true');
-    btnPermanente.classList.remove('active');
-    btnPermanente.setAttribute('aria-selected', 'false');
+    // Cambia el diseño visual de las pestañas de arriba
+    if(btnMensual) {
+      btnMensual.classList.add('active');
+      btnMensual.setAttribute('aria-selected', 'true');
+    }
+    if(btnPermanente) {
+      btnPermanente.classList.remove('active');
+      btnPermanente.setAttribute('aria-selected', 'false');
+    }
     
-    // Enlace de PayPal normal ($9.99)
-    utilityPaypalBtn.href = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=santinomachiavello20@gmail.com&amount=9.99&currency_code=USD&item_name=Tino_Utility_Mensual";
+    // Devolvemos el link original de PayPal para el mes a Tino Utility
+    if(utilityPaypalBtn) {
+      utilityPaypalBtn.href = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=santinomachiavello20@gmail.com&amount=9.99&currency_code=USD&item_name=Tino_Utility_Mensual";
+    }
   }
 
-  // Función para activar el Plan Permanente con el -45% OFF
+  // Función para aplicar el descuento (Permanente - $5.49)
   function setPlanPermanente() {
-    // Aquí puedes ajustar el precio final permanente si cambia. Dejo $5.49 como ejemplo de descuento.
-    utilityOldPrice.style.display = 'inline';
-    utilityAmount.textContent = '$5.49'; 
-    utilityPeriod.textContent = '/ permanente';
+    if(utilityOldPrice) utilityOldPrice.style.display = 'inline';
+    if(utilityAmount) utilityAmount.textContent = '$5.49'; 
+    if(utilityPeriod) utilityPeriod.textContent = '/ permanente';
     if(utilityDiscountTag) utilityDiscountTag.style.display = 'flex';
     
-    // Cambia el diseño visual de los botones de arriba
-    btnPermanente.classList.add('active');
-    btnPermanente.setAttribute('aria-selected', 'true');
-    btnMensual.classList.remove('active');
-    btnMensual.setAttribute('aria-selected', 'false');
+    // Cambia el diseño visual de las pestañas de arriba
+    if(btnPermanente) {
+      btnPermanente.classList.add('active');
+      btnPermanente.setAttribute('aria-selected', 'true');
+    }
+    if(btnMensual) {
+      btnMensual.classList.remove('active');
+      btnMensual.setAttribute('aria-selected', 'false');
+    }
     
-    // Enlace de PayPal con el precio de descuento aplicado
-    utilityPaypalBtn.href = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=santinomachiavello20@gmail.com&amount=5.49&currency_code=USD&item_name=Tino_Utility_Permanente_45OFF";
+    // Cambiamos el link de PayPal de Tino Utility al precio rebajado
+    if(utilityPaypalBtn) {
+      utilityPaypalBtn.href = "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=santinomachiavello20@gmail.com&amount=5.49&currency_code=USD&item_name=Tino_Utility_Permanente_45OFF";
+    }
   }
 
-  // Asignamos los clics
+  // Conectamos los clics de los botones de arriba con las funciones
   if(btnMensual) btnMensual.addEventListener('click', setPlanMensual);
   if(btnPermanente) btnPermanente.addEventListener('click', setPlanPermanente);
 </script>
